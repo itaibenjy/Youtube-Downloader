@@ -19,7 +19,7 @@ class App(customtkinter.CTk):
 
         # configure grid layout (4x4)
         self.grid_columnconfigure(1, weight=1)
-        self.grid_columnconfigure((2, 3), weight=0)
+        self.grid_columnconfigure((0, 2, 3), weight=0)
         self.grid_rowconfigure((0, 1, 2), weight=1)
 
         self.nav_frame = NavigatorFrame(self)
