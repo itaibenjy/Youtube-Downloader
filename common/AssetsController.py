@@ -6,7 +6,7 @@ class NavigatorAssets():
 
     def __init__(self) -> None:
         # path to the images directory
-        self.image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "assets" , "images")
+        self.image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir, "assets" , "images")
 
         # icon dimensions
         self.icon_dimensions:tuple = (45,45)

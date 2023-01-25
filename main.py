@@ -1,15 +1,16 @@
 from os.path import ismount
 import tkinter
 import customtkinter
-from NavigatorFrame import NavigatorFrame
-from SearchFrame import SearchFrame
-from UrlFrame import UrlFrame
-from DownloadFrame import DownloadFrame
-from SettingsFrame import SettingsFrame
-from Enums import Frame
+from frames.NavigatorFrame import NavigatorFrame
+from frames.SearchFrame import SearchFrame
+from frames.UrlFrame import UrlFrame
+from frames.DownloadFrame import DownloadFrame
+from frames.SettingsFrame import SettingsFrame
+from common.Enums import Frame
+from common.ColorManager import ColorManager
  
-customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
-customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
+ColorManager.setAppearanceMode("Light")
+ColorManager.setTheme("blue")
 
 HEIGHT: int = 1100 
 WIDTH: int = 700
