@@ -1,12 +1,6 @@
 import customtkinter
-from enum import Enum
-from assets_controller import NavigatorAssets
-
-class Frame(Enum):
-    SEARCH = 1
-    URL = 2
-    DOWNLOADING = 3
-    SETTINGS = 4
+from AssetsController import NavigatorAssets
+from Enums import Frame
 
 HOVER_COLOR:tuple = ("gray70", "gray30");
 TEXT_COLOR:tuple = ("gray10", "gray90");
@@ -17,7 +11,8 @@ BUTTON_HEIGHT:int = 55;
 class NavigatorFrame():
 
     def __init__(self, app) -> None:
-
+        # saving the app 
+        self.app = app
         # getting access to all assets
         self.assets = NavigatorAssets()
         # setting the frame
@@ -34,7 +29,7 @@ class NavigatorFrame():
 
         # Navigation Buttons 
         self.search = customtkinter.CTkButton(self.frame, corner_radius=0, height=BUTTON_HEIGHT, border_spacing=10, text="",
-                                              width= 60, fg_color="transparent", text_color=TEXT_COLOR, hover_color=HOVER_COLOR,
+                                              width= 60, fg_color=SELECT_COLOR, text_color=TEXT_COLOR, hover_color=HOVER_COLOR,
                                               image=self.assets.search_icon,command=self.search_button_event)
         self.search.grid(row=2, column=0, sticky="ew")
 
@@ -53,7 +48,8 @@ class NavigatorFrame():
                                               image=self.assets.settings_icon,command=self.settings_button_event)
         self.settings.grid(row=6, column=0, sticky="sew")
 
-
+ 
+    # Methods
     def select_frame(self, frame: Frame) -> None:
         # make all the buttons transparent
         self.search.configure(fg_color="transparent")
@@ -65,12 +61,16 @@ class NavigatorFrame():
         match frame:
             case Frame.SEARCH:
                 self.search.configure(fg_color=SELECT_COLOR)
+                self.app.select_frame(Frame.SEARCH)
             case Frame.URL:
                 self.url.configure(fg_color=SELECT_COLOR)
+                self.app.select_frame(Frame.URL)
             case Frame.DOWNLOADING:
                 self.downloading.configure(fg_color=SELECT_COLOR)
+                self.app.select_frame(Frame.DOWNLOADING)
             case Frame.SETTINGS:
                 self.settings.configure(fg_color=SELECT_COLOR)
+                self.app.select_frame(Frame.SETTINGS)
 
 
     def search_button_event(self) -> None:
