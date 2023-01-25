@@ -9,7 +9,7 @@ from frames.SettingsFrame import SettingsFrame
 from common.Enums import Frame
 from common.ColorManager import ColorManager
  
-ColorManager.setAppearanceMode("Light")
+ColorManager.setAppearanceMode("Dark")
 ColorManager.setTheme("blue")
 
 HEIGHT: int = 1100 
