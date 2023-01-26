@@ -1,4 +1,5 @@
 from os.path import ismount
+import os
 import tkinter
 import customtkinter
 from frames.NavigatorFrame import NavigatorFrame
@@ -7,10 +8,9 @@ from frames.UrlFrame import UrlFrame
 from frames.DownloadFrame import DownloadFrame
 from frames.SettingsFrame import SettingsFrame
 from common.Enums import Frame
-from common.ColorManager import ColorManager
+from settings.SettingsManager import SettingsManager
  
-ColorManager.setAppearanceMode("Dark")
-ColorManager.setTheme("blue")
+SettingsManager.setSettings()
 
 HEIGHT: int = 1100 
 WIDTH: int = 700
