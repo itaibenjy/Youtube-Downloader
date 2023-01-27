@@ -17,11 +17,13 @@ class SettingsManager():
     def setAppearance(cls, mode:str) -> None:
         cls.setValue("appearance", mode)
         cls.appearance = mode
+        ColorManager.setAppearanceMode(cls.appearance)
 
     @classmethod
     def setTheme(cls, theme:str) -> None:
         cls.setValue("theme", theme)
         cls.theme = theme
+        ColorManager.setTheme(cls.theme)
 
     @classmethod
     def setFolder(cls, download_folder:str) -> None:
