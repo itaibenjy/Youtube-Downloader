@@ -2,14 +2,14 @@ import customtkinter
 from settings.SettingsManager import SettingsManager
 from tkinter import filedialog
 
-class SettingsFrame():
+class SettingsFrame(customtkinter.CTkFrame):
 
     def __init__(self, app) -> None:
         # setting the frame
-        self.frame = customtkinter.CTkFrame(app, fg_color="transparent")
-        self.frame.columnconfigure((0,1) , weight= 1)
-        self.settings_frame = customtkinter.CTkFrame(self.frame)
-        self.title = customtkinter.CTkLabel(self.frame, text="Settings", font=customtkinter.CTkFont(size=45, weight="bold"))
+        super().__init__(app, fg_color="transparent")
+        self.columnconfigure((0,1) , weight= 1)
+        self.settings_frame = customtkinter.CTkFrame(self)
+        self.title = customtkinter.CTkLabel(self, text="Settings", font=customtkinter.CTkFont(size=45, weight="bold"))
         self.title.grid(column=0, row=0, columnspan=2, padx=20, pady=20, sticky="nswe") 
 
         self.appearance_lable = customtkinter.CTkLabel(self.settings_frame, text="Appearance mode:", font=customtkinter.CTkFont(size=20)) 

@@ -34,26 +34,27 @@ class App(customtkinter.CTk):
         self.url_frame = UrlFrame(self)
         self.download_frame = DownloadFrame(self)
         self.settings_frame = SettingsFrame(self)
-
-        self.search_frame.frame.grid(row=0, column=1, rowspan= 4, columnspan=3, sticky="nsew")
+        
+        # setting the search frame to be default frame
+        self.search_frame.grid(row=0, column=1, rowspan= 4, columnspan=3, sticky="nsew")
 
     # select frame from navigator frame
     def select_frame(self, frame) -> None:
         # removing all frames
-        self.search_frame.frame.grid_forget()
-        self.url_frame.frame.grid_forget()
-        self.download_frame.frame.grid_forget()
-        self.settings_frame.frame.grid_forget()
+        self.search_frame.grid_forget()
+        self.url_frame.grid_forget()
+        self.download_frame.grid_forget()
+        self.settings_frame.grid_forget()
         # showing the chosen screen
         match frame:
             case Frame.SEARCH:
-                self.search_frame.frame.grid(row=0, column=1, rowspan=4, columnspan=3, sticky="nsew")
+                self.search_frame.grid(row=0, column=1, rowspan=4, columnspan=3, sticky="nsew")
             case Frame.URL:
-                self.url_frame.frame.grid(row=0, column=1, rowspan=4, columnspan=3, sticky="nsew")
+                self.url_frame.grid(row=0, column=1, rowspan=4, columnspan=3, sticky="nsew")
             case Frame.DOWNLOADING:
-                self.download_frame.frame.grid(row=0, column=1, rowspan=4, columnspan=3, sticky="nsew")
+                self.download_frame.grid(row=0, column=1, rowspan=4, columnspan=3, sticky="nsew")
             case Frame.SETTINGS:
-                self.settings_frame.frame.grid(row=0, column=1, rowspan=4, columnspan=3, sticky="nsew")
+                self.settings_frame.grid(row=0, column=1, rowspan=4, columnspan=3, sticky="nsew")
                 
 
 if __name__ == "__main__":
