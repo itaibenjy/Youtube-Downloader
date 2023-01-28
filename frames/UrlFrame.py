@@ -1,6 +1,7 @@
 import customtkinter
 import tkinter
 from pytube import YouTube
+from pytube.exceptions import VideoUnavailable, RegexMatchError
 from frames.VideoURLFrame import VideoURLFrame
 
 class UrlFrame(customtkinter.CTkFrame):
@@ -10,7 +11,7 @@ class UrlFrame(customtkinter.CTkFrame):
         super().__init__(app, fg_color="transparent")
         self.grid_columnconfigure(1,  weight=6)
         self.grid_columnconfigure((0,2,3), weight=1)
-
+ 
         self.video_frame = VideoURLFrame(self)
         # URL Entry
         self.URL_entry= customtkinter.CTkEntry(self, placeholder_text="Insert a URL")
@@ -21,6 +22,9 @@ class UrlFrame(customtkinter.CTkFrame):
 
 
     def find_video(self) -> None:
-        self.youtube = YouTube(self.URL_entry.get())
-        self.video_frame.set_data(self.youtube)
+        try:
+            self.youtube = YouTube(self.URL_entry.get())
+            self.video_frame.set_data(self.youtube)
+        except (VideoUnavailable, RegexMatchError):
+            self.video_frame.set_error("YouTube video with the givven URL not found")
         self.video_frame.grid(row=1, column=1, columnspan=2, pady=20, padx=20, sticky="nesw")
