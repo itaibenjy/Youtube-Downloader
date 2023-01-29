@@ -35,7 +35,6 @@ class UrlFrame(customtkinter.CTkFrame):
 
     def get_streams(self) -> None:
         self.streams = self.youtube.streams.all()
-        print(self.streams[0].itag)
 
     
 
