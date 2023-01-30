@@ -34,7 +34,8 @@ class UrlFrame(customtkinter.CTkFrame):
         self.video_frame.grid(row=1, column=1, columnspan=2, pady=20, padx=20, sticky="nesw")
 
     def get_streams(self) -> None:
-        self.streams = self.youtube.streams.all()
+        self.video_frame.set_type_combobox(self.youtube.streams)
+
 
     
 

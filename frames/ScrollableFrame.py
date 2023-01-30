@@ -24,7 +24,7 @@ class ScrollableFrame(customtkinter.CTkFrame):
 
         canvas.configure(yscrollcommand=scrollbar.set)
 
-        canvas.pack(side="left", fill="both", expand=True)
+        canvas.pack(side="left", fill="both", expand=True, anchor="center")
         scrollbar.pack(side="right", fill="y")
 
 

@@ -25,14 +25,20 @@ class YouTubeHelper():
     def filter_streams(streams:list[Stream] ,**kwargs) -> list[Stream]:
         filttered_streams: list[Stream] = []
         for stream in streams:
-            if not YouTubeHelper.is_valid_key(stream.res, "res", **kwargs):
-                break
-            if not YouTubeHelper.is_valid_key(stream.fps, "fps", **kwargs):
-                break
-            if not YouTubeHelper.is_valid_key(stream.progressive, "progressive", **kwargs):
-                break
-            if not YouTubeHelper.is_valid_key(stream.mime_type, "mime_type", **kwargs):
-                break
+            if stream.type == "video":
+                if not YouTubeHelper.is_valid_key(stream.resolution, "res", **kwargs):
+                    continue
+            else: # audio
+                if not YouTubeHelper.is_valid_key(stream.abr, "res", **kwargs):
+                    continue
+            if stream.type == "video" and not YouTubeHelper.is_valid_key(stream.fps, "fps", **kwargs):
+                continue
+            if not YouTubeHelper.is_valid_key(stream.is_progressive, "progressive", **kwargs):
+                continue
+            if not YouTubeHelper.is_valid_key(stream.type, "type", **kwargs):
+                continue
+            if not YouTubeHelper.is_valid_key(stream.subtype, "format", **kwargs):
+                continue
             filttered_streams.append(stream)
         return filttered_streams
 
@@ -46,14 +52,19 @@ class YouTubeHelper():
     def get_filter_values(streams:list[Stream], key:str,) -> list[str]:
         filter_values:list[str] = []
         for stream in streams:
-            if(key == "res" and stream.res not in filter_values):
-                filter_values.append(stream.res)
+            if(key == "res"):
+                if(stream.type == "video" and stream.resolution not in filter_values):
+                    filter_values.append(stream.resolution)
+                elif stream.type == "audio" and stream.abr not in filter_values: 
+                    filter_values.append(stream.abr)
             if(key == "fps" and stream.fps not in filter_values):
-                filter_values.append(stream.fps)
-            if(key == "progressive" and stream.progressive not in filter_values):
-                filter_values.append(stream.progressive)
-            if(key == "mime_type" and stream.mime_type not in filter_values):
-                filter_values.append(stream.mime_type)
+                filter_values.append(f"{stream.fps}")
+            if(key == "format" and stream.subtype not in filter_values):
+                filter_values.append(stream.subtype)
+            if(key == "type" and f"Only {stream.type}" not in filter_values):
+                if "Video" not in filter_values and stream.is_progressive:
+                    filter_values.append("Video")
+                filter_values.append(f"Only {stream.type}")
         return filter_values
 
 
