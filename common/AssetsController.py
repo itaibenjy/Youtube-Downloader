@@ -21,3 +21,5 @@ class NavigatorAssets():
                                                  dark_image=Image.open(os.path.join(self.image_path, "download-dark.png")), size=self.icon_dimensions)
         self.settings_icon = customtkinter.CTkImage(light_image=Image.open(os.path.join(self.image_path, "settings-light.png")),
                                                      dark_image=Image.open(os.path.join(self.image_path, "settings-dark.png")), size=self.icon_dimensions)
+        self.logo_icon = customtkinter.CTkImage(light_image=Image.open(os.path.join(self.image_path, "logo-light.png")),
+                                                     dark_image=Image.open(os.path.join(self.image_path, "logo-dark.png")), size=self.icon_dimensions)

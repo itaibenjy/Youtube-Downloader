@@ -1,4 +1,5 @@
 from pytube import Stream
+from datetime import datetime
 
 class YouTubeHelper():
 
@@ -20,6 +21,23 @@ class YouTubeHelper():
         views = views/10**9
         views =  round(views) if views > 10 else round(views,1) 
         return f"{views}B"
+
+    @staticmethod
+    def duration_format(seconds:int) -> str:
+        second = seconds%60
+        minuts = seconds//60
+        hours = seconds//3600
+        if(hours > 0):
+            return "%02d:%02d:%02d" % (hours, minuts, second)
+        return "%02d:%02d" % (minuts, second)
+
+    @staticmethod
+    def date_format(date:datetime) -> str:
+        arr = str(date).split("-")
+        year = arr[0][2:]
+        month = arr[1]
+        day = arr[2][:2]
+        return f"{day}-{month}-{year}"
 
     @staticmethod
     def filter_streams(streams:list[Stream] ,**kwargs) -> list[Stream]:
@@ -61,10 +79,10 @@ class YouTubeHelper():
                 filter_values.append(f"{stream.fps}")
             if(key == "format" and stream.subtype not in filter_values):
                 filter_values.append(stream.subtype)
-            if(key == "type" and f"Only {stream.type}" not in filter_values):
+            if(key == "type" and f"{stream.type.title()} Only" not in filter_values):
                 if "Video" not in filter_values and stream.is_progressive:
                     filter_values.append("Video")
-                filter_values.append(f"Only {stream.type}")
+                filter_values.append(f"{stream.type.title()} Only")
         return filter_values
 
 

@@ -21,9 +21,10 @@ class SettingsManager():
 
     @classmethod
     def setTheme(cls, theme:str) -> None:
+        theme_location = os.path.join("assets", "themes",f"{theme}.json")
         cls.setValue("theme", theme)
         cls.theme = theme
-        ColorManager.setTheme(cls.theme)
+        ColorManager.setTheme(theme_location)
 
     @classmethod
     def setFolder(cls, download_folder:str) -> None:
@@ -58,8 +59,9 @@ class SettingsManager():
         with open(SETTINGS_FILE, "w") as file:
             file.write(jsonFormat)
 
+        theme_location = os.path.join("assets", "themes",f"{cls.theme}.json")
         ColorManager.setAppearanceMode(cls.appearance)
-        ColorManager.setTheme(cls.theme)
+        ColorManager.setTheme(theme_location)
 
     # setting default parameters in case file was tempered with 
     @classmethod
@@ -74,6 +76,8 @@ class SettingsManager():
         if(cls.download_folder is None or cls.download_folder== ""):
             cls.download_folder = DEFAULT_FOLDER
             data["folder"] = cls.download_folder
+
+
 
 
 
