@@ -76,7 +76,7 @@ class App(customtkinter.CTk):
 
     def download_completed(self, stream:Stream, file_path:str):
         self.download_frame.download_completed(stream, file_path)
-
+# for commit
 if __name__ == "__main__":
     app = App()
     app.mainloop()
