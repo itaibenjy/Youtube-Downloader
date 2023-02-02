@@ -152,12 +152,18 @@ class VideoFrame(customtkinter.CTkTabview):
     
     def download_stream(self, stream:Stream) -> None:
         if stream.type == "video":
-            stream.download(output_path=SettingsManager.download_folder,
-                            filename=f"{stream.title.replace(' ','')}_{stream.resolution}_{stream.fps}fps.{stream.subtype}")
+            file_name = f"{stream.title.replace(' ','')}_{stream.resolution}_{stream.fps}fps.{stream.subtype}"
         else:
-            stream.download(output_path=SettingsManager.download_folder,
-                            filename=f"{stream.title.replace(' ','')}_{stream.abr}.{stream.subtype}")
-
+            file_name = f"{stream.title.replace(' ','')}_{stream.abr}.{stream.subtype}" 
+        file_name = self.valid_filename(file_name)
+        stream.download(output_path=SettingsManager.download_folder,
+                            filename=file_name)
+    
+    def valid_filename(self, filename:str) -> str:
+        chars = '\\/<>:"|?!'
+        for c in chars:
+            filename = filename.replace(c, "")
+        return filename
 
 
 

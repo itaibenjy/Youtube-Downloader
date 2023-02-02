@@ -1,6 +1,7 @@
 import customtkinter
 from settings.SettingsManager import SettingsManager
 from tkinter import filedialog
+import os
 
 class SettingsFrame(customtkinter.CTkFrame):
 
@@ -53,6 +54,10 @@ class SettingsFrame(customtkinter.CTkFrame):
 
     def browse_event(self) -> None:
         folder_path = filedialog.askdirectory()
+        # deal with windows directories
+        print(os.sep)
+        if os.sep == "\\":
+            folder_path = folder_path.replace("/", "\\")
         self.location_lable.configure(text=folder_path)
         SettingsManager.setFolder(folder_path)
 
