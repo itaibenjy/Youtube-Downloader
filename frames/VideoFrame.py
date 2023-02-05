@@ -8,7 +8,9 @@ from settings.SettingsManager import SettingsManager
 from urllib.request import urlopen
 import bordercrop
 from threading import Thread
-import copy 
+from common.HelpTip import HelpTip
+
+TITLE_LENGTH = 70
 
 class VideoFrame(customtkinter.CTkTabview):
 
@@ -71,9 +73,11 @@ class VideoFrame(customtkinter.CTkTabview):
     # set youtube data
     def set_data(self, youtube:YouTube) -> None:
         try:
-            self.title_label.configure(text=youtube.title)
+            title = youtube.title if len(youtube.title) <= TITLE_LENGTH else youtube.title[:TITLE_LENGTH] + "..."
+            self.title_label.configure(text=title)
+            HelpTip(self.app, self.title_label, message=youtube.title)
         except PytubeError:
-            self.set_error("Error while retriving the video, try again.")
+            self.set_error("Error while retrieving the video, try again.")
             return
         try:
             self.thumbnail_image =customtkinter.CTkImage(bordercrop.crop(youtube.thumbnail_url, MINIMUM_ROWS=10), size=(800,450))
@@ -143,10 +147,7 @@ class VideoFrame(customtkinter.CTkTabview):
     def download_button_event(self) -> None:
         # possibly put in thread
         stream = self.selected_streams[0]
-        try:
-            thumbnail_image = customtkinter.CTkImage(bordercrop.crop(self.youtube.thumbnail_url, MINIMUM_ROWS=10), size=(160,90))
-        except ValueError:
-            thumbnail_image = customtkinter.CTkImage(Image.open(urlopen(self.youtube.thumbnail_url)), size=(120, 90))
+        thumbnail_image = self.youtube.thumbnail_url
         self.app.add_to_downloads(stream, thumbnail_image)
         Thread(target=lambda : self.download_stream(stream)).start()
     

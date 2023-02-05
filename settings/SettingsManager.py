@@ -3,7 +3,7 @@ import os
 from common.ColorManager import ColorManager
    
 SETTINGS_FILE = os.path.join("settings", "settings.json")
-DEFAULT_THEME = "blue"
+DEFAULT_THEME = "red"
 DEFAULT_APPEARANCE = "Dark"
 DEFAULT_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)))
 

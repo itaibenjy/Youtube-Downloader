@@ -1,17 +1,22 @@
 import customtkinter
 from pytube import Stream
 from PIL import Image
+from urllib.request import urlopen
+import bordercrop
 
 class DownloadVideoFrame(customtkinter.CTkFrame):
-    def __init__(self, master, stream:Stream, thumbnail:Image):
+    def __init__(self, master, stream:Stream, thumbnail:str):
         super().__init__(master)
         self.columnconfigure(1, weight = 1)
 
-        self.thumbnail = thumbnail
+        try:
+            self.thumbnail = customtkinter.CTkImage(bordercrop.crop(thumbnail, MINIMUM_ROWS=10), size=(160,90))
+        except ValueError:
+            self.thumbnail = customtkinter.CTkImage(Image.open(urlopen(youtube.thumbnail_url)), size=(120, 90))
         self.stream = stream
 
         # image
-        self.thumbnail_image = customtkinter.CTkLabel(self, text="", image=thumbnail)
+        self.thumbnail_image = customtkinter.CTkLabel(self, text="", image=self.thumbnail)
         self.thumbnail_image.grid(row=1, column=0, rowspan=3, padx=10, pady=10, sticky="nswe")
         
         # title
@@ -21,11 +26,11 @@ class DownloadVideoFrame(customtkinter.CTkFrame):
         # details
         if(stream.type == "video"):
             type = "Video" if stream.is_progressive else "Video Only"
-            self.video_details_label = customtkinter.CTkLabel(self, text=f"{type}  ·  {stream.resolution}  ·  {stream.subtype}  ·  {stream.fps}FPS",
-                                                          font=customtkinter.CTkFont(size=12))
+            self.details = f"{type}  ·  {stream.resolution}  ·  {stream.subtype}  ·  {stream.fps}FPS"
         else:
             type = "Audio Only"
-            self.video_details_label = customtkinter.CTkLabel(self, text=f"{type}  ·  {stream.subtype}  · {stream.abr}",
+            self.details = f"{type}  ·  {stream.subtype}  · {stream.abr}"
+        self.video_details_label = customtkinter.CTkLabel(self, text=self.details,
                                                           font=customtkinter.CTkFont(size=12))
         self.video_details_label.grid(row=2, column=1, columnspan=2, padx=10, pady=(0,10), sticky="nsw")
 

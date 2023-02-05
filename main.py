@@ -9,13 +9,14 @@ from frames.DownloadFrame import DownloadFrame
 from frames.SettingsFrame import SettingsFrame
 from common.Enums import Frame
 from settings.SettingsManager import SettingsManager
+from downloads.DownloadManager import DownloadManager
 from pytube import Stream
 from PIL import Image
  
 SettingsManager.setSettings()
 
-HEIGHT: int = 1100 
-WIDTH: int = 700
+HEIGHT: int = 700 
+WIDTH: int = 1100
 
 def restart_app(app) -> None:
     app.destroy()
@@ -28,7 +29,7 @@ class App(customtkinter.CTk):
 
         # configure window
         self.title("Youtube Downloader")
-        self.geometry(f"{HEIGHT}x{WIDTH}")
+        self.geometry(f"{WIDTH}x{HEIGHT}")
 
         # configure grid layout (4x4)
         self.grid_columnconfigure(1, weight=1)
@@ -66,17 +67,22 @@ class App(customtkinter.CTk):
     def restart_app(self) -> None:
         restart_app(self)
 
-    def add_to_downloads(self, stream:Stream, thumbnail:Image):
+    def add_to_downloads(self, stream:Stream, thumbnail:str) -> None:
         self.download_frame.add_download(stream, thumbnail)
         self.navigator_frame.downloading_button_event()
         self.download_frame.tabview.set("Downloading")
 
-    def download_progress(self, stream:Stream, chunk, bytes_remaining):
+    def download_progress(self, stream:Stream, chunk, bytes_remaining) -> None:
         self.download_frame.download_progress(stream, bytes_remaining)
 
-    def download_completed(self, stream:Stream, file_path:str):
+    def download_completed(self, stream:Stream, file_path:str) -> None:
         self.download_frame.download_completed(stream, file_path)
-# for commit
+    
+    def setDownloads(self) -> None:
+        DownloadManager.setDownloads(self.download_frame)
+    
+
 if __name__ == "__main__":
     app = App()
+    app.setDownloads()
     app.mainloop()

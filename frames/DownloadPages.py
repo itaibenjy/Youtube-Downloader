@@ -16,12 +16,15 @@ class DownloadPages(customtkinter.CTkTabview):
         self.elements.insert(0,element)
         self.rerender_elements()
     
-    def remove_element(self, element) -> Image:
-        thumbnail:Image = None
+    def remove_element(self, element) -> str:
+        thumbnail:str = None
         for elem in self.elements:
             if elem[0] == element:
                 self.elements.remove(elem)
-                thumbnail = elem[1]
+                try:
+                    thumbnail = elem[1]
+                except IndexError:
+                    pass
         self.rerender_elements()
         return thumbnail
 
@@ -43,8 +46,8 @@ class DownloadPages(customtkinter.CTkTabview):
                 self.current_tabs_count += 1
             if len(self.elements[i]) == 2: 
                 new_video_frame = DownloadVideoFrame(self.tab(f"{(current_row//3)+1}"), self.elements[i][0], self.elements[i][1])
-            elif len(self.elements[i]) == 3:
-                new_video_frame = CompletedVideoFrame(self.tab(f"{(current_row//3)+1}"), self.elements[i][0], self.elements[i][1], self.elements[i][2])
+            elif len(self.elements[i]) == 1:
+                new_video_frame = CompletedVideoFrame(self, self.tab(f"{(current_row//3)+1}"), self.elements[i][0])
             self.rendered_elements.append(new_video_frame)
             new_video_frame.grid(row = current_row%3, column=1, padx=20, pady=10, sticky="nswe")
             current_row += 1
