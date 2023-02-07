@@ -4,6 +4,7 @@ from frames.DownloadPages import DownloadPages
 from downloads.DownloadManager import DownloadManager
 from pytube import Stream
 from PIL import Image
+from dialogs.InformationDialog import InformationDialog
 
 class DownloadFrame(customtkinter.CTkFrame):
 
@@ -33,6 +34,8 @@ class DownloadFrame(customtkinter.CTkFrame):
 
         self.completed_frame = DownloadPages(self.tabview.tab("Completed"))
         self.completed_frame.grid(row=1, column=1, sticky="nsew")
+
+        self.dialog = None
 
 
     def add_download(self, stream:Stream, thumbnail:str) -> None:
@@ -65,5 +68,24 @@ class DownloadFrame(customtkinter.CTkFrame):
             streamType = "Audio Only"
             dictionary["details"] = f"{streamType}  ·  {stream.subtype}  · {stream.abr}"
         return dictionary
+
+    def is_already_exist(self, stream:Stream, thumbnail:str) -> bool:
+        if DownloadManager.is_already_exist(self.downloadToDict(stream, "","")) or (stream,thumbnail) in self.download_frame.elements:
+            
+            if(stream.type == "video"):
+                type = "Video" if stream.is_progressive else "Video Only"
+                details = f"Type: {type} \nResulution: {stream.resolution} \nFormat: {stream.subtype} \nFPS: {stream.fps}FPS"
+            else:
+                type = "Audio Only"
+                details = f"Type: {type} \nFormat: {stream.subtype} \nQuality: {stream.abr}"
+
+            if self.dialog is None or not self.dialog.winfo_exists():
+                self.dialog = InformationDialog("This video already in downloads", "This video with these details already exist in downloads\n"+ f"{stream.title}\n" + details) 
+            else:
+                self.dialog.focus()
+
+            return True
+
+        return False
 
 

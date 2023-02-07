@@ -145,8 +145,10 @@ class VideoFrame(customtkinter.CTkTabview):
         # possibly put in thread
         stream = self.selected_streams[0]
         thumbnail_image = self.youtube.thumbnail_url
-        self.app.add_to_downloads(stream, thumbnail_image)
-        Thread(target=lambda : self.download_stream(stream)).start()
+        # check if download already exist and display dialog if does
+        if not self.app.download_already_exist(stream, thumbnail_image):
+            self.app.add_to_downloads(stream, thumbnail_image)
+            Thread(target=lambda : self.download_stream(stream)).start()
     
     def download_stream(self, stream:Stream) -> None:
         if stream.type == "video":

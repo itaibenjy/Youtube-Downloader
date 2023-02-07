@@ -84,7 +84,9 @@ class App(customtkinter.CTk):
     def search_video_event(self, url:str):
         self.navigator_frame.url_button_event()
         self.url_frame.search_video_pressed(url)
-    
+
+    def download_already_exist(self, stream:Stream, thumbnail:str) -> bool:
+        return self.download_frame.is_already_exist(stream, thumbnail)
 
 if __name__ == "__main__":
     app = App()

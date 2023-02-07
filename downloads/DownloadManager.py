@@ -1,6 +1,7 @@
 import json
 import os
 from customtkinter import CTkFrame
+from pytube import Stream
 
 DOWNLOAD_FILE = os.path.join("downloads", "downloads.json")
 
@@ -22,9 +23,6 @@ class DownloadManager():
     
     @classmethod
     def addToCompleted(cls, download_frame, stream_data: dict) -> None:
-        # checking if the stream file exists in the download path 
-        if not os.path.isfile(stream_data["file_path"]):
-            stream_data["details"] = "FILE NOT FOUND!"
         download_frame.add_to_completed_downloads(stream_data)
 
     @classmethod
@@ -62,4 +60,20 @@ class DownloadManager():
         with open(DOWNLOAD_FILE, "w") as file:
             file.write(jsonFormat)
 
+        # deleting the file from the pc
+        os.remove(stream_data["file_path"])
+    
+    @classmethod
+    def is_already_exist(cls, stream_data:dict) -> bool:
+        with open(DOWNLOAD_FILE, "r") as file:
+            data = json.load(file)
 
+        # deleting the download stream save
+        index:int = None
+        for key in data["Downloads"].keys():
+            stream_data["file_path"] = data["Downloads"][key]["file_path"]
+            stream_data["thumbnail"] = data["Downloads"][key]["thumbnail"]
+            if data["Downloads"][key] == stream_data:
+                return True
+
+        return False
