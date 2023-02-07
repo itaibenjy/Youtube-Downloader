@@ -1,18 +1,14 @@
 import customtkinter
 from pytube import Stream
 from PIL import Image
-from urllib.request import urlopen
-import bordercrop
+from common.YouTubeHelper import YouTubeHelper
 
 class DownloadVideoFrame(customtkinter.CTkFrame):
     def __init__(self, master, stream:Stream, thumbnail:str):
         super().__init__(master)
         self.columnconfigure(1, weight = 1)
 
-        try:
-            self.thumbnail = customtkinter.CTkImage(bordercrop.crop(thumbnail, MINIMUM_ROWS=10), size=(160,90))
-        except ValueError:
-            self.thumbnail = customtkinter.CTkImage(Image.open(urlopen(youtube.thumbnail_url)), size=(120, 90))
+        self.thumbnail = customtkinter.CTkImage(YouTubeHelper.get_cropped_thumbnail(thumbnail), size=(160,90))
         self.stream = stream
 
         # image

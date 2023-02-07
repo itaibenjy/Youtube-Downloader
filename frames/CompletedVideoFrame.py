@@ -6,8 +6,7 @@ import subprocess
 from common.HelpTip import HelpTip
 from common.AssetsController import DownloadAssets
 from downloads.DownloadManager import DownloadManager
-from urllib.request import urlopen
-import bordercrop
+from common.YouTubeHelper import YouTubeHelper
 
 TITLE_LENGTH = 60
 HOVER_COLOR = ("gray70", "gray30");
@@ -23,10 +22,7 @@ class CompletedVideoFrame(customtkinter.CTkFrame):
         self.columnconfigure(1, weight = 1)
 
 
-        try:
-            self.thumbnail = customtkinter.CTkImage(bordercrop.crop(stream_data["thumbnail"], MINIMUM_ROWS=10), size=(160,90))
-        except ValueError:
-            self.thumbnail = customtkinter.CTkImage(Image.open(urlopen(stream_data["thumbnail"])), size=(120, 90))
+        self.thumbnail = customtkinter.CTkImage(YouTubeHelper.get_cropped_thumbnail(stream_data["thumbnail"]), size=(160,90))
 
         self.file_path = stream_data["file_path"]
 

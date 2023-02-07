@@ -21,5 +21,6 @@ class SearchPages(customtkinter.CTkTabview):
             self.lock.release()
         new_search_video = SearchVideoFrame(self.app, self.tab(f"{(index//6) + 1}"), youtube, self.accent_color)
         new_search_video.grid(column = (index%6)%3, row = (index%6)//3, padx=5, pady=5, sticky = "nswe")
+        new_search_video.setImage()
 
 

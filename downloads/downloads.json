@@ -1,4 +1,19 @@
 {
-    "index": 1,
-    "Downloads": {}
+    "index": 3,
+    "Downloads": {
+        "2": {
+            "file_path": "/Users/benjy/Downloads/BIGGESTSIDEMENIRLFAILS_720p_30fps.mp4",
+            "thumbnail": "https://i.ytimg.com/vi/e5rsd0H16MU/sddefault.jpg",
+            "file_size": 106.346,
+            "title": "BIGGEST SIDEMEN IRL FAILS!",
+            "details": "Video  \u00b7  720p  \u00b7  mp4  \u00b7  30FPS"
+        },
+        "3": {
+            "file_path": "/Users/benjy/Downloads/StuffThatWeMissed\u2026_720p_30fps.mp4",
+            "thumbnail": "https://i.ytimg.com/vi/fxe7oicgS8s/sddefault.jpg",
+            "file_size": 133.481,
+            "title": "Stuff That We Missed\u2026",
+            "details": "Video  \u00b7  720p  \u00b7  mp4  \u00b7  30FPS"
+        }
+    }
 }
