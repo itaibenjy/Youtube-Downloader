@@ -1,5 +1,7 @@
 from pytube import Stream
 from datetime import datetime
+from PIL import Image
+from urllib.request import urlopen
 
 class YouTubeHelper():
 
@@ -85,6 +87,9 @@ class YouTubeHelper():
                 filter_values.append(f"{stream.type.title()} Only")
         return filter_values
 
-
-        
+    @staticmethod
+    def get_cropped_thumbnail(thumbnail:str) -> Image:
+        cropped:Image = Image.open(urlopen(thumbnail)).crop((0,60,640,420))
+        return cropped
+            
 

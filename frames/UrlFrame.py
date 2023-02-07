@@ -56,6 +56,11 @@ class UrlFrame(customtkinter.CTkFrame):
             self.video_frame.set_error("YouTube video with the given URL not found")
             self.display_video_frame()
 
+    def search_video_pressed(self, url:str):
+        self.URL_entry.delete(0, len(self.URL_entry.get()))
+        self.URL_entry.insert(0,url)
+        self.find_video()
+
 
 
 

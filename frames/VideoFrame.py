@@ -79,10 +79,7 @@ class VideoFrame(customtkinter.CTkTabview):
         except PytubeError:
             self.set_error("Error while retrieving the video, try again.")
             return
-        try:
-            self.thumbnail_image =customtkinter.CTkImage(bordercrop.crop(youtube.thumbnail_url, MINIMUM_ROWS=10), size=(800,450))
-        except ValueError:
-           self.thumbnail_image = customtkinter.CTkImage(Image.open(urlopen(youtube.thumbnail_url)), size=(600, 450))
+        self.thumbnail_image =customtkinter.CTkImage(YouTubeHelper.get_cropped_thumbnail(youtube.thumbnail_url), size=(800,450))
         self.thumbnail_label_image.configure(image=self.thumbnail_image)
         self.channel_views_label.configure(text=f"{youtube.author}  ·  {YouTubeHelper.views_format(youtube.views)} Views")
         self.duration_date_label.configure(text=f"{YouTubeHelper.duration_format(youtube.length)}  ·  {YouTubeHelper.date_format(youtube.publish_date)}")
