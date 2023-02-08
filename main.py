@@ -8,6 +8,7 @@ from frames.UrlFrame import UrlFrame
 from frames.DownloadFrame import DownloadFrame
 from frames.SettingsFrame import SettingsFrame
 from common.Enums import Frame
+from common.AssetsController import IconAssets
 from settings.SettingsManager import SettingsManager
 from downloads.DownloadManager import DownloadManager
 from pytube import Stream
@@ -31,6 +32,8 @@ class App(customtkinter.CTk):
         # configure window
         self.title("Youtube Downloader")
         self.geometry(f"{WIDTH}x{HEIGHT}")
+        self.icons = IconAssets()
+        self.iconphoto(False, self.icons.main_icon)
 
         # configure grid layout (4x4)
         self.grid_columnconfigure(1, weight=1)

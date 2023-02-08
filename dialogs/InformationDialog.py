@@ -1,4 +1,5 @@
 import customtkinter
+from common.AssetsController import IconAssets
 
 
 class InformationDialog(customtkinter.CTkToplevel):
@@ -7,6 +8,8 @@ class InformationDialog(customtkinter.CTkToplevel):
         self.geometry("400x300")
         self.grid_columnconfigure(1, weight=1)
         self.title(title)
+        self.icons = IconAssets()
+        self.iconphoto(False, self.icons.info_icon)
         
         self.message_frame = self.get_message(message)
         self.message_frame.grid(row = 1, column = 1, columnspan = 2, padx=20, pady=20, sticky="nswe")

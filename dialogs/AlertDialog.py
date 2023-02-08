@@ -1,4 +1,5 @@
 import customtkinter
+from common.AssetsController import IconAssets
 
 
 class AlertDialog(customtkinter.CTkToplevel):
@@ -7,6 +8,8 @@ class AlertDialog(customtkinter.CTkToplevel):
         self.geometry("400x200")
         self.grid_columnconfigure((1,2), weight=1)
         self.title(title)
+        self.icons = IconAssets()
+        self.iconphoto(False, self.icons.alert_icon)
         self.ok_callback = ok_callback
 
         self.message_frame = self.get_message(message)

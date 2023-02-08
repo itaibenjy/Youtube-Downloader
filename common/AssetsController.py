@@ -1,6 +1,7 @@
 import customtkinter
 from PIL import Image
 import os
+import tkinter as tk
 
 class NavigatorAssets():
 
@@ -36,3 +37,15 @@ class DownloadAssets():
         # initialize all the images
         self.delete_icon = customtkinter.CTkImage(light_image=Image.open(os.path.join(self.image_path, "delete-light.png")),
                                                  dark_image=Image.open(os.path.join(self.image_path, "delete-dark.png")), size=self.icon_dimensions)
+class IconAssets():
+
+    def __init__(self) -> None:
+        # path to the images directory
+        self.image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir, "assets" , "images")
+
+        self.main_icon = tk.PhotoImage(file = os.path.join(self.image_path, "youtube.png"))
+        
+        self.info_icon = tk.PhotoImage(file = os.path.join(self.image_path, "info.png"))
+
+        self.alert_icon = tk.PhotoImage(file = os.path.join(self.image_path, "alert.png"))
+                                       
