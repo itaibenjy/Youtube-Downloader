@@ -11,7 +11,7 @@ class SearchVideoFrame(customtkinter.CTkFrame):
     
     def __init__(self, app, master, youtube:YouTube, accent_color:str):
         self.app = app
-        super().__init__(master, border_width=0, border_color=accent_color, width=300, height=200)
+        super().__init__(master, border_width=0, border_color=accent_color, width=300, height=200, fg_color=("gray81", "gray20"))
         self.url = youtube.watch_url
         self.thumbnail = youtube.thumbnail_url
 
@@ -21,8 +21,8 @@ class SearchVideoFrame(customtkinter.CTkFrame):
         HelpTip(self.app, self.title_label, message=youtube.title)
 
         # loading bar
-        self.loading_bar = customtkinter.CTkProgressBar(self, mode="indeterminate",width=300,height=190)
-        self.loading_bar.grid(row=1, column=1, columnspan=2, pady=5, padx=5, sticky="nswe")
+        self.loading_bar = customtkinter.CTkProgressBar(self, mode="indeterminate",width=300)
+        self.loading_bar.grid(row=1, column=1, columnspan=2, pady=70, padx=5, sticky="nswe")
         self.loading_bar.start()
 
         # channel and views

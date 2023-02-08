@@ -4,10 +4,11 @@ from frames.CompletedVideoFrame import CompletedVideoFrame
 from PIL import Image
 
 
-class DownloadPages(customtkinter.CTkTabview):
+class DownloadPages(customtkinter.CTkScrollableFrame):
     def __init__(self, master) -> None:
         super().__init__(master)
         self.current_tabs_count = 0
+        self.grid_columnconfigure(1, weight=1)
 
         self.elements = []
         self.rendered_elements = []
@@ -39,17 +40,12 @@ class DownloadPages(customtkinter.CTkTabview):
         current_row = 0  
         
         for i in range(len(self.elements)):
-            # adding tabs when needed
-            if current_row % 3 == 0:
-                self.add(f"{(current_row//3)+1}")
-                self.tab(f"{(current_row//3)+1}").columnconfigure(1, weight=1)
-                self.current_tabs_count += 1
             if len(self.elements[i]) == 2: 
-                new_video_frame = DownloadVideoFrame(self.tab(f"{(current_row//3)+1}"), self.elements[i][0], self.elements[i][1])
+                new_video_frame = DownloadVideoFrame(self, self.elements[i][0], self.elements[i][1])
             elif len(self.elements[i]) == 1:
-                new_video_frame = CompletedVideoFrame(self, self.tab(f"{(current_row//3)+1}"), self.elements[i][0])
+                new_video_frame = CompletedVideoFrame(self, self.elements[i][0])
             self.rendered_elements.append(new_video_frame)
-            new_video_frame.grid(row = current_row%3, column=1, padx=20, pady=10, sticky="nswe")
+            new_video_frame.grid(row = current_row, column=1, padx=20, pady=10, sticky="nswe")
             current_row += 1
 
     def download_progress(self, stream, progress:float, percent:int):

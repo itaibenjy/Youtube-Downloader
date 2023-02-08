@@ -10,7 +10,7 @@ class SearchFrame(customtkinter.CTkFrame):
         # setting the frame
         super().__init__(app, fg_color="transparent")
         self.grid_columnconfigure(1,  weight=6)
-        self.grid_columnconfigure((0,2,3), weight=1)
+        self.grid_columnconfigure(2, weight=1)
         self.grid_rowconfigure(1, weight=1)
         self.app = app 
 
@@ -28,11 +28,22 @@ class SearchFrame(customtkinter.CTkFrame):
         
         
     def search_button_event(self) -> None:
-        search_videos = Search(self.search_entry.get())
+        self.search_videos = Search(self.search_entry.get())
         self.search_grid.grid_forget()
         self.search_grid.destroy()
         self.search_grid = SearchPages(self.app, self, self.color_manager.getColor(self.search_button, "fg_color") )
         self.search_grid.grid(row = 1, column=1, columnspan=2, pady=(0,20), padx = 20, sticky="nswe")
+        
+        self.number_of_videos = len(self.search_videos.results)
 
-        for index in range(len(search_videos.results)):
-            Thread(target= lambda *args: self.search_grid.add_video_frame(index, search_videos.results[index])).start()
+        for index in range(len(self.search_videos.results)):
+            Thread(target= lambda *args: self.search_grid.add_video_frame(index, self.search_videos.results[index])).start()
+
+        self.load_more_button = customtkinter.CTkButton(self.search_grid, text="Load More", command = self.load_more_button_event)
+        self.load_more_button.grid(column=1, columnspan =1, row = 3000, sticky="nswe")
+    
+    def load_more_button_event(self) -> None:
+        self.search_videos.get_next_results()
+
+        for index in range(self.number_of_videos, len(self.search_videos.results), 1):
+            Thread(target= lambda *args: self.search_grid.add_video_frame(index, self.search_videos.results[index])).start()

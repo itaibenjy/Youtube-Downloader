@@ -1,11 +1,12 @@
 import json 
 import os
 from common.ColorManager import ColorManager
+from pathlib import Path
    
 SETTINGS_FILE = os.path.join("settings", "settings.json")
 DEFAULT_THEME = "red"
 DEFAULT_APPEARANCE = "Dark"
-DEFAULT_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)))
+DEFAULT_FOLDER = str(Path.home() / "Downloads")
 
 class SettingsManager():
     

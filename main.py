@@ -21,6 +21,7 @@ WIDTH: int = 1100
 def restart_app(app) -> None:
     app.destroy()
     app = App()
+    app.setDownloads()
     app.mainloop()
 
 class App(customtkinter.CTk):

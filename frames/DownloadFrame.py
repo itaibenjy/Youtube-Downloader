@@ -51,6 +51,7 @@ class DownloadFrame(customtkinter.CTkFrame):
         data = self.downloadToDict(stream, file_path, thumbnail)
         DownloadManager.saveToCompleted(data)
         self.completed_frame.add_element([data])
+        self.tabview.set("Completed")
 
     def add_to_completed_downloads(self, stream_data:dict) ->  None:
         self.completed_frame.add_element([stream_data])

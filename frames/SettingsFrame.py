@@ -2,6 +2,7 @@ import customtkinter
 from settings.SettingsManager import SettingsManager
 from tkinter import filedialog
 import os
+from dialogs.AlertDialog import AlertDialog
 
 class SettingsFrame(customtkinter.CTkFrame):
 
@@ -50,6 +51,9 @@ class SettingsFrame(customtkinter.CTkFrame):
     def change_theme_event(self, theme:str) -> None:
         theme_string = theme.replace(" ","-").lower()
         SettingsManager.setTheme(theme_string)
+        AlertDialog(self.restart_app, "Theme will change after restart the app", f"We set your theme to {theme}. \n To view it we need to restart the app, restart now? \n (any in progress downloads will be deleted)")
+
+    def restart_app(self):
         self.app.restart_app()
 
     def browse_event(self) -> None:

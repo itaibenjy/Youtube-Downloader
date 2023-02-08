@@ -13,8 +13,8 @@ TITLE_LENGTH = 60
 HOVER_COLOR = ("gray70", "gray30");
 
 class CompletedVideoFrame(customtkinter.CTkFrame):
-    def __init__(self, downloadPages, master, stream_data: dict):
-        super().__init__(master)
+    def __init__(self, downloadPages, stream_data: dict):
+        super().__init__(downloadPages)
 
         self.stream_data = stream_data
 
@@ -41,7 +41,7 @@ class CompletedVideoFrame(customtkinter.CTkFrame):
         title = stream_data["title"] if len(stream_data["title"]) <= TITLE_LENGTH else stream_data["title"][:TITLE_LENGTH] + "..."
         self.title_label = customtkinter.CTkLabel(self, text=title, font=customtkinter.CTkFont(size=20))
         self.title_label.grid(row=1, column=1, columnspan=2, padx=10, pady=(10,5), sticky="nsw")
-        HelpTip(master, self.title_label, message=stream_data["title"])
+        HelpTip(downloadPages, self.title_label, message=stream_data["title"])
 
         # details
         self.video_details_label = customtkinter.CTkLabel(self, text=stream_data["details"],
@@ -59,7 +59,7 @@ class CompletedVideoFrame(customtkinter.CTkFrame):
         # delete button
         self.delete_button = customtkinter.CTkButton(self, text="", fg_color = "transparent", hover_color=HOVER_COLOR,width=15, command=self.delete_event, anchor="center", image=self.assets.delete_icon)
         self.delete_button.grid(row=1, column=3, padx=10, pady=10, sticky="e")
-        HelpTip(master, self.delete_button, message="Delete file")
+        HelpTip(downloadPages, self.delete_button, message="Delete file")
 
         self.dialog = None
 
