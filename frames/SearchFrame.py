@@ -25,6 +25,8 @@ class SearchFrame(customtkinter.CTkFrame):
 
         self.search_grid = SearchPages(self.app, self, self.color_manager.getColor(self.search_button, "fg_color") )
         self.search_grid.grid(row = 1, column=1, columnspan=2, pady=(0,20), padx = 20, sticky="nswe")
+
+        self.search_entry.bind('<Return>', lambda *args : self.search_button_event())
         
         
     def search_button_event(self) -> None:

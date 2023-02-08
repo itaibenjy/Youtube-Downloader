@@ -23,6 +23,8 @@ class UrlFrame(customtkinter.CTkFrame):
         # URL Button 
         self.URL_button = customtkinter.CTkButton(self, text="Find Video", command=self.find_video)
         self.URL_button.grid(column=2, row=0, padx=(10,20), pady=20, sticky="nswe")
+
+        self.URL_entry.bind('<Return>',lambda *args: self.find_video())
         
         self.loading_bar = customtkinter.CTkProgressBar(self, mode="indeterminate")
 
