@@ -17,6 +17,8 @@ class InformationDialog(customtkinter.CTkToplevel):
         self.ok_button = customtkinter.CTkButton(self, text="OK", command=self.ok_event)
         self.ok_button.grid(row = 2, column = 2, padx=20, pady=20, sticky="nswe")
 
+        self.attributes('-topmost', 'true')
+
     def get_message(self, message:str) -> customtkinter.CTkFrame:
         lines = message.split("\n")
         message_frame = customtkinter.CTkFrame(self)
