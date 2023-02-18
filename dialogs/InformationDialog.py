@@ -7,6 +7,7 @@ class InformationDialog(customtkinter.CTkToplevel):
         super().__init__(*args, **kwargs)
         self.geometry("400x300")
         self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(1, weight=1)
         self.title(title)
         self.icons = IconAssets()
         self.iconphoto(False, self.icons.info_icon)
@@ -22,9 +23,11 @@ class InformationDialog(customtkinter.CTkToplevel):
     def get_message(self, message:str) -> customtkinter.CTkFrame:
         lines = message.split("\n")
         message_frame = customtkinter.CTkFrame(self)
+        message_frame.grid_columnconfigure(1, weight=1)
+        message_frame.grid_rowconfigure((0,20), weight=1)
         for index,line in enumerate(lines):
             line_label = customtkinter.CTkLabel(message_frame, text=line)
-            line_label.grid(row=index, column=1,padx = 10, sticky="nswe")
+            line_label.grid(row=index+1, column=1,padx = 10, pady=1, sticky="we")
         return message_frame
 
     def ok_event(self):

@@ -2,6 +2,7 @@ import json
 import os
 from customtkinter import CTkFrame
 from pytube import Stream
+from pprint import pprint
 
 DOWNLOAD_FILE = os.path.join("downloads", "downloads.json")
 
@@ -42,6 +43,7 @@ class DownloadManager():
 
     @classmethod 
     def delete_download(cls, stream_data: dict) -> None:
+        pprint(stream_data)
         # opening the download file
         with open(DOWNLOAD_FILE, "r") as file:
             data = json.load(file)
@@ -61,7 +63,10 @@ class DownloadManager():
             file.write(jsonFormat)
 
         # deleting the file from the pc
-        os.remove(stream_data["file_path"])
+        try:
+            os.remove(stream_data["file_path"])
+        except FileNotFoundError:
+            print("File not found")
     
     @classmethod
     def is_already_exist(cls, stream_data:dict) -> bool:

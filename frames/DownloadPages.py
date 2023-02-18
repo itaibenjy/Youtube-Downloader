@@ -53,6 +53,10 @@ class DownloadPages(customtkinter.CTkScrollableFrame):
             if element.stream.itag == stream.itag and element.stream.title == stream.title:
                 element.progress_update(progress, percent)
                 return
+    
+    def toggle_combine_mode(self, mode:bool) -> None:
+        for element in self.rendered_elements:
+            element.toggle_combine_mode(mode)
 
 
         
