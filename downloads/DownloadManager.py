@@ -2,7 +2,6 @@ import json
 import os
 from customtkinter import CTkFrame
 from pytube import Stream
-from pprint import pprint
 
 DOWNLOAD_FILE = os.path.join("downloads", "downloads.json")
 
@@ -43,7 +42,6 @@ class DownloadManager():
 
     @classmethod 
     def delete_download(cls, stream_data: dict) -> None:
-        pprint(stream_data)
         # opening the download file
         with open(DOWNLOAD_FILE, "r") as file:
             data = json.load(file)

@@ -7,6 +7,8 @@ from common.CombineManager import CombineManager
 from pytube import Stream
 from PIL import Image
 from dialogs.InformationDialog import InformationDialog
+from dialogs.AlertDialog import AlertDialog
+from common.HelpTip import HelpTip
 from threading import Thread
 import proglog
 
@@ -47,22 +49,30 @@ class DownloadFrame(customtkinter.CTkFrame):
         self.combine_text.grid(row=0, column=0, pady=10, padx=10, sticky="nse")
 
         self.switch_var = customtkinter.StringVar(value="on")
-        self.combine_switch = customtkinter.CTkSwitch(self.combine_frame, text="", command=self.switch_event, variable=self.switch_var, onvalue="on", offvalue="off")
+        self.combine_switch = customtkinter.CTkSwitch(self.combine_frame, text="", command=self.switch_event, variable=self.switch_var)
+        HelpTip(self.tabview.tab("Completed"), self.combine_switch, message="Toggle Combine Mode to Combine Audio and Video Files")
         self.combine_switch.deselect()
         self.combine_switch.grid(row=0, column=1, pady=10, padx=10, sticky="nsw")
 
         self.combine_button = customtkinter.CTkButton(self.combine_frame, text="Combine", command=self.combine_event)
+        HelpTip(self.tabview.tab("Completed"), self.combine_button, message="Combine Selected Audio and Video files")
 
         self.progress_frame = customtkinter.CTkFrame(self.tabview.tab("Completed"))
         self.progress_frame.grid_columnconfigure(1 , weight=1)
 
         self.progress_bar = customtkinter.CTkProgressBar(self.progress_frame)
         self.progress_bar.set(0)
-        self.progress_bar.grid(row=0, column=1, padx=10, pady=10, sticky="we")
-        self.progress_label = customtkinter.CTkLabel(self.progress_frame, text="")
-        self.progress_label.grid(row=0, column=0, pady=10, padx=10, sticky="nswe")
+        self.progress_bar.grid(row=1, column=1, padx=2, pady=10, sticky="we")
+        self.progress_label = customtkinter.CTkLabel(self.progress_frame, text="", font=customtkinter.CTkFont(size=14))
+        self.progress_label.grid(row=1, column=0, pady=2, padx=10, sticky="nswe")
         self.progress_percentage = customtkinter.CTkLabel(self.progress_frame, text="")
-        self.progress_percentage.grid(row=0, column=2, pady=10, padx=10, sticky="nswe")
+        self.progress_percentage.grid(row=1, column=2, pady=2, padx=10, sticky="nswe")
+        self.time_label = customtkinter.CTkLabel(self.progress_frame, text="", font=customtkinter.CTkFont(size=14))
+        self.time_label.grid(row=2, column=1, pady=10, padx=10, sticky="nswe")
+        self.title_progress_label = customtkinter.CTkLabel(self.progress_frame, text="", font=customtkinter.CTkFont(size=14))
+        self.title_progress_label.grid(row=0, column=0,columnspan=3, pady=0, padx=10, sticky="nswe")
+        self.time_progress_label = customtkinter.CTkLabel(self.progress_frame, text="", font=customtkinter.CTkFont(size=14))
+        self.time_progress_label.grid(row=2, column=1, pady=0, padx=10, sticky="nswe")
 
         self.dialog = None
 
@@ -118,8 +128,8 @@ class DownloadFrame(customtkinter.CTkFrame):
         return False
 
     def switch_event(self) -> None:
-        CombineManager.is_combine_mode = not CombineManager.is_combine_mode
-        self.completed_frame.rerender_elements()
+        CombineManager.is_combine_mode = True if self.combine_switch.get() else False
+        self.completed_frame.toggle_combine_mode(CombineManager.is_combine_mode)
         if CombineManager.is_combine_mode:
             self.combine_button.grid(row=0, column=1, pady=10, padx=(0, 20), sticky="nse")
         else:
@@ -133,11 +143,13 @@ class DownloadFrame(customtkinter.CTkFrame):
             self.dialog = InformationDialog("Can't Combine selected downloads!", "The selected Downloads are not compatible for combining \nTo be able to combine two downloads choose\n"+ "one Download of type Only Audio and other of type \nOnly Video of the same youtube video than press combine") 
         else:
             self.switch_event()
-            Thread(target = self.combine_in_thread).start()
+            if self.dialog is not None and self.dialog.winfo_exists():
+                self.dialog.destroy()
+            self.dialog = AlertDialog(lambda : Thread(target = self.combine_in_thread).start(), "You are about to combine video and audio.", "To combine video and audio we set the audio to the video \n and export the new video file, the export process takes\n about the length of the video and uses the CPU heavily.") 
     
     def combine_in_thread(self) -> None:
         self.combine_frame.grid_forget()
         self.progress_frame.grid(row=2, column=1, pady=5, sticky="nsew")
-        CombineManager.combine_chosen_downloads(self.completed_frame, self.progress_label, self.progress_bar, self.progress_percentage)
+        CombineManager.combine_chosen_downloads(self.completed_frame, self.title_progress_label, self.time_progress_label, self.progress_label, self.progress_bar, self.progress_percentage)
         self.progress_frame.grid_forget()
         self.combine_frame.grid(row=2, column=1, pady=5, sticky="nsew")

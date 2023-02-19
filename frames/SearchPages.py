@@ -8,7 +8,7 @@ class SearchPages(customtkinter.CTkScrollableFrame):
         super().__init__(master)
         self.accent_color = accent_color
         self.app = app
-        self.grid_columnconfigure((0,1,2), weight=1)
+        self.grid_columnconfigure(1, weight=1)
 
     def add_video_frame(self, index:int, youtube:YouTube):
         new_search_video = SearchVideoFrame(self.app, self, youtube, self.accent_color)

@@ -33,9 +33,7 @@ class DownloadPages(customtkinter.CTkScrollableFrame):
         # clearing all data
         for i in range(len(self.rendered_elements)):
             self.rendered_elements[i].destroy()
-        for i in range(0,self.current_tabs_count,1):
-            self.delete(f"{i+1}")
-        self.current_tabs_count=0
+        self.rendered_elements.clear()
 
         current_row = 0  
         
@@ -57,6 +55,11 @@ class DownloadPages(customtkinter.CTkScrollableFrame):
     def toggle_combine_mode(self, mode:bool) -> None:
         for element in self.rendered_elements:
             element.toggle_combine_mode(mode)
+
+    def refresh_checked(self) -> None:
+        for element in self.rendered_elements:
+            element.refresh_checked()
+
 
 
         

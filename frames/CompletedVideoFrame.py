@@ -56,35 +56,19 @@ class CompletedVideoFrame(customtkinter.CTkFrame):
         # open button
         self.open_button = customtkinter.CTkButton(self, text="Open", command=self.open_file)
         self.open_button.grid(row=3, column=3, columnspan=2, padx=10, pady=10, sticky="nsw")
+        HelpTip(downloadPages, self.open_button, message="Open And Play The File")
+
+        self.select_combine = customtkinter.CTkCheckBox(self, width=10, text="", command=self.select_combine_event)
+        self.select_help_tip = None
 
         if CombineManager.is_combine_mode:
-            # select for combine mode
-            self.select_combine = customtkinter.CTkCheckBox(self, width=10, text="", command=self.select_combine_event)
             self.select_combine.grid(row=2, column=0, padx=(10,0), sticky="nsew")
-            
-            if self.stream_data in CombineManager.videos_selected:
-                self.select_combine.select()
-            else: 
-                self.select_combine.deselect()
-
-                # enabling selection only for possible combine (same title one audio one audio)
-                if "Only" not in stream_data["details"] or CombineManager.amount_selected == 2:
-                    self.select_combine.configure(state="disabled")
-                
-                elif CombineManager.amount_selected == 1 and CombineManager.is_audio_selected and "Video" not in stream_data["details"]:
-                    self.select_combine.configure(state="disabled")
-
-                elif CombineManager.amount_selected == 1 and CombineManager.is_video_selected and "Audio" not in stream_data["details"]:
-                    self.select_combine.configure(state="disabled")
-
-                elif CombineManager.amount_selected == 1 and not CombineManager.title_selected == stream_data["title"]:
-                    self.select_combine.configure(state="disabled")
-            
+            self.set_checkbox()
 
         # delete button
         self.delete_button = customtkinter.CTkButton(self, text="", fg_color = "transparent", hover_color=HOVER_COLOR,width=15, command=self.delete_event, anchor="center", image=self.assets.delete_icon)
         self.delete_button.grid(row=1, column=4, padx=10, pady=10, sticky="e")
-        HelpTip(downloadPages, self.delete_button, message="Delete file")
+        HelpTip(downloadPages, self.delete_button, message="Delete File")
 
         self.dialog = None
 
@@ -112,7 +96,7 @@ class CompletedVideoFrame(customtkinter.CTkFrame):
         else:
             self.select_combine_unchecked()
 
-        self.downloadPages.rerender_elements()
+        self.downloadPages.refresh_checked()
 
     def select_combine_checked(self) -> None:
         if CombineManager.amount_selected == 0:
@@ -124,7 +108,6 @@ class CompletedVideoFrame(customtkinter.CTkFrame):
 
         CombineManager.amount_selected += 1
         CombineManager.videos_selected.append(self.stream_data)
-        self.printdata()
 
     def select_combine_unchecked(self) -> None:
         CombineManager.amount_selected -= 1
@@ -134,11 +117,54 @@ class CompletedVideoFrame(customtkinter.CTkFrame):
             CombineManager.is_video_selected=False
 
         CombineManager.videos_selected.remove(self.stream_data)
-        self.printdata()
 
-    def printdata(self):
-        print(CombineManager.amount_selected)
-        print(CombineManager.is_audio_selected)
-        print(CombineManager.is_video_selected)
-        print(CombineManager.title_selected)
-        print(CombineManager.videos_selected)
+    def set_checkbox(self) -> None:
+        # select for combine mode
+        self.select_combine.configure(state="normal")
+        
+        if self.select_help_tip is not None:
+            self.select_help_tip.destroy()
+            self.select_combine.unbind("<Enter>")
+            self.select_combine.unbind("<Leave>")
+            self.select_combine.unbind("<Motion>")
+            self.select_combine.unbind("<ButtonPress>")
+        
+        if self.stream_data in CombineManager.videos_selected:
+            self.select_combine.select()
+            self.select_help_tip  = HelpTip(self.downloadPages, self.select_combine, message="Deselect This File")
+        else: 
+            self.select_combine.deselect()
+
+            # enabling selection only for possible combine (same title one audio one audio)
+            if "Only" not in self.stream_data["details"] or CombineManager.amount_selected == 2:
+                self.select_combine.configure(state="disabled")
+                self.select_help_tip  = HelpTip(self.downloadPages, self.select_combine, message="Unable To Choose (2 Downloads Already Chosen or Unsupported Type)")
+            
+            elif CombineManager.amount_selected == 1 and CombineManager.is_audio_selected and "Video" not in self.stream_data["details"]:
+                self.select_combine.configure(state="disabled")
+                self.select_help_tip = HelpTip(self.downloadPages, self.select_combine, message="Unable To Choose (Audio File already chosen, choose Video File")
+
+            elif CombineManager.amount_selected == 1 and CombineManager.is_video_selected and "Audio" not in self.stream_data["details"]:
+                self.select_combine.configure(state="disabled")
+                self.select_help_tip = HelpTip(self.downloadPages, self.select_combine, message="Unable To Choose (Video File already chosen, choose Audio File")
+
+            elif CombineManager.amount_selected == 1 and not CombineManager.title_selected == self.stream_data["title"]:
+                self.select_combine.configure(state="disabled")
+                self.select_help_tip = HelpTip(self.downloadPages, self.select_combine, message="Unable To Choose (Not The Same YouTube Video as The Other Chosen File)")
+            
+            else:
+                self.select_help_tip = HelpTip(self.downloadPages, self.select_combine, message="Select This File to Combine")
+
+
+    def toggle_combine_mode(self, mode) -> None:
+        if mode:
+            self.select_combine.grid(row=2, column=0, padx=(10,0), sticky="nsew")
+            self.set_checkbox()
+        else:
+            self.select_combine.grid_forget()
+
+    def refresh_checked(self) -> None:
+        self.set_checkbox()
+
+
+
