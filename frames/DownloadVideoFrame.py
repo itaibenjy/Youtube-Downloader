@@ -35,7 +35,7 @@ class DownloadVideoFrame(customtkinter.CTkFrame):
         self.progress_bar.set(0)
         self.progress_bar.grid(row=3, column=1, padx=10, pady=10, sticky="we")
 
-        # precentage
+        # percentage
         self.percentage_label = customtkinter.CTkLabel(self, text="0%", font= customtkinter.CTkFont(size=14))
         self.percentage_label.grid(row=3, column=2, padx=10, pady=10, sticky="nsw")
 
