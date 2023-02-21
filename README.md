@@ -42,8 +42,8 @@ The program uses help tips on most elements for User guidance when the user put 
 
 The program also uses Alerts and Information dialogs for when a confirmation is needed or an additional guidance is required.
 
-![Dialog-Alert](screenshots/alert-dialog.png)
 ![Dialog-Information](screenshots/information-dialog.png)
+![Dialog-Alert](screenshots/alert-dialog.png)
 ![Help-tip](screenshots/help-tip.png)
 ## Download and Use
 This program is for personal use only. 
