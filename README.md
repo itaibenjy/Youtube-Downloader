@@ -5,8 +5,8 @@ This application I wrote in Python using [pytube](https://github.com/pytube/pytu
 ## Table of Contents 
 * [Find via URL](#find-via-url)
 * [Search](#search)
-* [Downloads](#download)
-* [Merging Audio and Video files](#merge-audio-and-video-files)
+* [Downloads](#downloads)
+* [Merging Audio and Video files](#merging-audio-and-video-files)
 * [Settings](#settings)
 * [Additional Features](#additional-features)
 
